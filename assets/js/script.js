@@ -4,7 +4,7 @@
     // function to print data
     // reprint list of searched cities
 
-var citiesSearched = ["ireland", "budapest"];
+var citiesSearched = [];
 var userFormEl = document.querySelector('#user-form');
 var cityInputEl = document.querySelector('#city');
 var citiesEl = document.querySelector("#previously-searched");
@@ -31,20 +31,15 @@ var formSubmitHandler = function (event) {
     event.preventDefault();
 
     var city = cityInputEl.value.trim();
-    citiesSearched.push(city);
-    clearCities();
-    displayCities();
-
-    // var username = nameInputEl.value.trim();
   
-    // if (username) {
-    //   getUserRepos(username);
-  
-    //   repoContainerEl.textContent = '';
-    //   nameInputEl.value = '';
-    // } else {
-    //   alert('Please enter a GitHub username');
-    // }
+    if (city) {
+        citiesSearched.push(city);
+        clearCities();
+        displayCities();
+        cityInputEl.value = '';
+    } else {
+        alert('Please enter a city name!');
+    }
   };
 
 userFormEl.addEventListener('submit', formSubmitHandler);  //form submit
