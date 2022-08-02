@@ -52,9 +52,10 @@ function displayDailyWeather(city) {
         })
         .then(function (data) {
             console.log(data);
-            document.querySelector('#temp').textContent += data.main.temp + " Fahrenheit";
-            document.querySelector('#wind').textContent += data.wind.speed + " MPH";
-            document.querySelector('#humidity').textContent += data.main.humidity + "%";
+            document.querySelector('#city-display').textContent = city + moment().format(' (M, D, YYYY)');
+            document.querySelector('#temp').textContent = "Temp: " + data.main.temp + " Fahrenheit";
+            document.querySelector('#wind').textContent = "Wind: " + data.wind.speed + " MPH";
+            document.querySelector('#humidity').textContent = "Humidity: " + data.main.humidity + "%";
             // document.querySelector('#uv-index').textContent +=
         });
 }
