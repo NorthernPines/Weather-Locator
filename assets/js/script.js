@@ -8,7 +8,8 @@ var citiesSearched = [];
 var userFormEl = document.querySelector('#user-form');
 var cityInputEl = document.querySelector('#city');
 var citiesEl = document.querySelector("#previously-searched");
-var apiKey = "7fcdffe4db0cbe3ed2fbd7ba33d7dc01";
+var apiKey1 = "7fcdffe4db0cbe3ed2fbd7ba33d7dc01";
+var apiKey2 = "bc277b439c09d1e02763266e01e3e7b7";
 
 function displayCities() {
     clearCities();
@@ -36,20 +37,37 @@ var formSubmitHandler = function (event) {
         citiesSearched.push(city);
         displayCities();
         cityInputEl.value = '';
-        displayWeather(city);
+        displayDailyWeather(city);
+        displayWeeklyWeather(city);
     } else {
         alert('Please enter a city name!');
     }
   };
 
-function displayWeather(city) {
-    var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey;
+function displayDailyWeather(city) {
+    var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + apiKey1;
     fetch(queryURL)
         .then(function (response) {
             return response.json();
         })
         .then(function (data) {
             console.log(data);
+            document.querySelector('#temp').textContent += data.main.temp + " Fahrenheit";
+            document.querySelector('#wind').textContent += data.wind.speed + " MPH";
+            document.querySelector('#humidity').textContent += data.main.humidity + "%";
+            // document.querySelector('#uv-index').textContent +=
+        });
+}
+
+function displayWeeklyWeather(city) {
+    var queryURL = "http://api.openweathermap.org/data/2.5/forecast/daily?q=" + city + "&cnt=6&units=imperial&appid=" + apiKey2;
+    fetch(queryURL)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data);
+            
         });
 }
 
