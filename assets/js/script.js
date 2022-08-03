@@ -15,6 +15,12 @@ var longitude;
 
 function displayCities() {
     clearCities();
+    savedCities = JSON.parse(window.localStorage.getItem('cities'));
+    console.log(savedCities); 
+    if (savedCities) {
+        citiesSearched = savedCities;
+    }
+    
     for (i = 0; i < citiesSearched.length; i++) {
         var city = document.createElement('button');
         city.classList = 'btn';
@@ -37,6 +43,8 @@ var formSubmitHandler = function (event) {
   
     if (city) {
         citiesSearched.push(city);
+        window.localStorage.setItem('cities', JSON.stringify(citiesSearched));
+
         displayCities();
         cityInputEl.value = '';
         displayDailyWeather(city);
@@ -61,7 +69,6 @@ function displayDailyWeather(city) {
             return response.json();
         })
         .then(function (data) {
-            console.log(city);
             document.querySelector('#city-display').textContent = city + moment().format(' (M, D, YYYY)');
             document.querySelector('#temp').textContent = "Temp: " + data.main.temp + " Fahrenheit";
             document.querySelector('#wind').textContent = "Wind: " + data.wind.speed + " MPH";
@@ -75,7 +82,7 @@ function displayDailyWeather(city) {
                 })
                 .then(function (data) {
                     var uvIndex = data.daily[0].uvi;
-                    console.log(uvIndex);
+                    
                     var uv = document.querySelector('#uv');
                     uv.style.borderRadius = "5px";
                     uv.textContent = uvIndex;
@@ -101,6 +108,8 @@ function displayWeeklyWeather(city) {
             
     //     });
 }
+
+displayCities();
 
 userFormEl.addEventListener('submit', formSubmitHandler);  //form submit
 citiesEl.addEventListener('click', cityClickHandler);
